@@ -949,7 +949,11 @@ def user_report_menu(df, city, month, day):
 
 def user_stats(df, city, month, day):
     """
-    Produces trip duration reports and statistics for the selected city.
+    Cleans the bike share user data where required.
+
+    Produces bike share user reports and statistics for the selected city.
+    Additional reporting is provided for cities where user gender and age data
+    is available.  Where age data is available, users are grouped into age bands.
 
     Args:
         df - the DataFrame of of unfiltered data for the selected city
