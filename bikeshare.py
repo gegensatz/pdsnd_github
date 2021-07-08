@@ -562,6 +562,8 @@ def trip_dur_report(month, day, tot_report, mth_report, day_report, mth_day_repo
 def except_report(duration_except, ex_count):
     """
     Prints an exception summary report if any trip duration exceptions were identified.
+    An exception is where the difference between start time and end time is different
+    to the Trip Duration data provided.
     If there are no exceptions in the selected data, a message to that effect is displayed.
 
     Args:
