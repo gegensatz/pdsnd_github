@@ -40,7 +40,7 @@ The program uses bike share data provided by [motivate](https://www.motivateco.c
 ### Credits
 The program was developed with assistance from:
  * online reference materials for:
-  * [Pandas](pandas.pydata.org/pandas-docs/stable/reference/),
-  * [NumPy](numpy.org/devdocs/reference/), and
-  * [datetime](docs.python.org/3/library/datetime)
+   * [Pandas](pandas.pydata.org/pandas-docs/stable/reference/),
+   * [NumPy](numpy.org/devdocs/reference/), and
+   * [datetime](docs.python.org/3/library/datetime)
  * a variety of [Stackoverflow](stackoverflow.com/questions/) pages.
