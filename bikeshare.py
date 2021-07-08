@@ -144,8 +144,6 @@ def get_filters():
 def load_filters(df,month,day):
     """
     Applies the month and day filters to the city data already selected.
-    Note: Can potentially move some data modifications here if performance
-          is improved.
 
     Args:
         df - the DataFrame populated with the selected city data
