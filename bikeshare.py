@@ -307,14 +307,20 @@ def usage_stats(df,month,day):
 
 def station_stats(df):
     """
-    Provides statistics and reports on trip volumes by station
-    for the selected city.
+    Creates a new dataframe (df_stations) listing each station used in the
+    selected city during the period selected, and summarising the number of trips
+    that start and end at each station.
+
+    Adds new columns to df_stations which include the difference between trip
+    starts and ends for each station as both the number of trips and % of starts.
+
+    Summarises bike share activity by trip (start staion to end station)
+
+    Provides statistics and reports on trip volumes by station and by trip
+    for the selected city and period.
 
     Args:
         df - the DataFrame of of unfiltered data for the selected city
-
-    Returns:
-        df_stations - a summary of trip volumes by station
     """
     start_time = time.time()
 
