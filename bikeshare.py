@@ -182,7 +182,7 @@ def usage_stats(df,month,day):
 
     df['Hour'] = df['Hour'].astype(int)
 
-    conditions = [(df['Hour'] >= 1) & (df['Hour'] < 5),
+    time_groups = [(df['Hour'] >= 1) & (df['Hour'] < 5),
                   (df['Hour'] >= 5) & (df['Hour'] < 9),
                   (df['Hour'] >= 9) & (df['Hour'] < 13),
                   (df['Hour'] >= 13) & (df['Hour'] < 17),
@@ -190,7 +190,7 @@ def usage_stats(df,month,day):
                   (df['Hour'] >= 21) | (df['Hour'] == 0)]
     time_order = ['1am-5am','5am-9am','9am-1pm','1pm-5pm','5pm-9pm','9pm-1am']
 
-    df['Hr Group'] = np.select(conditions, time_order)
+    df['Hr Group'] = np.select(time_groups, time_order)
 
     # Define row and column orders
     mth_order = ['Jan','Feb','Mar','Apr','May','Jun']
@@ -595,7 +595,7 @@ def trip_duration_stats(df, month, day):
     start_time = time.time()
 
     # Create new column for trip duration bands
-    conditions = [(df['Trip Duration'] <= 300),
+    dur_groups = [(df['Trip Duration'] <= 300),
                   (df['Trip Duration'] > 300) & (df['Trip Duration'] <= 600),
                   (df['Trip Duration'] > 600) & (df['Trip Duration'] <= 900),
                   (df['Trip Duration'] > 900) & (df['Trip Duration'] <= 1200),
@@ -605,7 +605,7 @@ def trip_duration_stats(df, month, day):
                   (df['Trip Duration'] > 21600)]
     values = ['5 min','10 min','15 min','20 min','1 hr','3 hr','6 hr','>6 hr']
 
-    df['Trip Times'] = np.select(conditions, values)
+    df['Trip Times'] = np.select(dur_groups, values)
 
     # Calculate the difference in seconds between Start Time and End Time and compare to Trip Duration
     df.insert(7,'Date Diff', df['End Time'] - df['Start Time'])
