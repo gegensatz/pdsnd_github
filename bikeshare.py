@@ -9,6 +9,9 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
 
+mth_order = ['Jan','Feb','Mar','Apr','May','Jun']
+day_order = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+
 def get_city():
     """
     Asks user to firstly select the city they are interested in.
@@ -94,9 +97,6 @@ def city_summary(df):
     Returns:
         df_summ - a summary table of trip volumes
     """
-    # Define row and column order
-    mth_order = ['Jan','Feb','Mar','Apr','May','Jun']
-    day_order = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
 
     # Create summary report for thes selected city
     df_summary = df.groupby(['Month','Day'], as_index=False)['Trip'].count()
@@ -191,10 +191,6 @@ def usage_stats(df,month,day):
     time_order = ['1am-5am','5am-9am','9am-1pm','1pm-5pm','5pm-9pm','9pm-1am']
 
     df['Hr Group'] = np.select(time_groups, time_order)
-
-    # Define row and column orders
-    mth_order = ['Jan','Feb','Mar','Apr','May','Jun']
-    day_order = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
 
     # calculate the most common month
     top_mth = df['Month'].value_counts().idxmax()
@@ -625,8 +621,6 @@ def trip_duration_stats(df, month, day):
     df['Var Cat'] = np.select(definition, categories)
 
     # Define column and row values and order
-    mth_order = ['Jan','Feb','Mar','Apr','May','Jun']
-    day_order = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
     mth_day_ord = [mth_order,day_order]
     rows = pd.MultiIndex.from_product(mth_day_ord,names=['Month','Day'])
 
@@ -772,8 +766,6 @@ def user_report_menu(df, city, month, day):
     k = ['Gender','Day','Age Group']
 
     # Define standard index and column orders
-    mth_order = ['Jan','Feb','Mar','Apr','May','Jun']
-    day_order = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
     gender = ['Female','Male','Unknown']
     age_groups = ['N/A','<18','18-29','30\'s','40\'s','50\'s','60\'s','70+']
 
