@@ -9,6 +9,9 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
 
+mth_order = ['Jan','Feb','Mar','Apr','May','Jun']
+day_order = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+
 def get_city():
     """
     Asks user to firstly select the city they are interested in.
@@ -90,9 +93,6 @@ def city_summary(df):
     Returns:
         df_summ - a summary table of trip volumes
     """
-    # Define row and column order
-    mth_order = ['Jan','Feb','Mar','Apr','May','Jun']
-    day_order = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
 
     # Create summary report for thes selected city
     df_summary = df.groupby(['Month','Day'], as_index=False)['Trip'].count()
@@ -119,11 +119,11 @@ def get_filters():
     print('\nYou can tailor your review by selecting one of the available months (per the table above) or one of the days of the week, or both.  Alternatively, you can include all months and days.')
     print('\nFilter by Month:')
     month_input = input('Would you like to review a particular month in detail or all months?\nPlease enter the name of the month or type \'all\' (to include all months): ')
-    month_input = month_input[0:3].strip().title()
+    month_input = month_input.strip().title()[0:3]
 
     while month_input not in months:
         month_input = input('Sorry, we do not have data for that month. Please try again: ')
-        month_input = month_input[0:3].strip().title()
+        month_input = month_input.strip().title()[0:3]
 
     month = month_input
 
@@ -131,11 +131,11 @@ def get_filters():
 
     print('\nFilter by Day:')
     day_input = input('Would you like to review a particular day of the week or include all days?\nPlease enter the day of the week or type \'all\' (to include all days): ')
-    day_input = day_input.strip().title()
+    day_input = day_input.strip().title()[0:3]
 
     while day_input not in days:
-        day_input = input('Sorry, I don\'t recognise that day. Please enter the day in full: ')
-        day_input = day_input.strip().title()
+        day_input = input('Sorry, I don\'t recognise that day. Please try again: ')
+        day_input = day_input.strip().title()[0:3]
 
     day = day_input
 
@@ -176,7 +176,7 @@ def usage_stats(df,month,day):
 
     df['Hour'] = df['Hour'].astype(int)
 
-    conditions = [(df['Hour'] >= 1) & (df['Hour'] < 5),
+    time_groups = [(df['Hour'] >= 1) & (df['Hour'] < 5),
                   (df['Hour'] >= 5) & (df['Hour'] < 9),
                   (df['Hour'] >= 9) & (df['Hour'] < 13),
                   (df['Hour'] >= 13) & (df['Hour'] < 17),
@@ -184,11 +184,7 @@ def usage_stats(df,month,day):
                   (df['Hour'] >= 21) | (df['Hour'] == 0)]
     time_order = ['1am-5am','5am-9am','9am-1pm','1pm-5pm','5pm-9pm','9pm-1am']
 
-    df['Hr Group'] = np.select(conditions, time_order)
-
-    # Define row and column orders
-    mth_order = ['Jan','Feb','Mar','Apr','May','Jun']
-    day_order = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+    df['Hr Group'] = np.select(time_groups, time_order)
 
     # calculate the most common month
     top_mth = df['Month'].value_counts().idxmax()
@@ -597,7 +593,7 @@ def trip_duration_stats(df, month, day):
     start_time = time.time()
 
     # Create new column for trip duration bands
-    conditions = [(df['Trip Duration'] <= 300),
+    dur_groups = [(df['Trip Duration'] <= 300),
                   (df['Trip Duration'] > 300) & (df['Trip Duration'] <= 600),
                   (df['Trip Duration'] > 600) & (df['Trip Duration'] <= 900),
                   (df['Trip Duration'] > 900) & (df['Trip Duration'] <= 1200),
@@ -607,7 +603,7 @@ def trip_duration_stats(df, month, day):
                   (df['Trip Duration'] > 21600)]
     values = ['5 min','10 min','15 min','20 min','1 hr','3 hr','6 hr','>6 hr']
 
-    df['Trip Times'] = np.select(conditions, values)
+    df['Trip Times'] = np.select(dur_groups, values)
 
     # Calculate the difference in seconds between Start Time and End Time and compare to Trip Duration
     df.insert(7,'Date Diff', df['End Time'] - df['Start Time'])
@@ -627,8 +623,6 @@ def trip_duration_stats(df, month, day):
     df['Var Cat'] = np.select(definition, categories)
 
     # Define column and row values and order
-    mth_order = ['Jan','Feb','Mar','Apr','May','Jun']
-    day_order = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
     mth_day_ord = [mth_order,day_order]
     rows = pd.MultiIndex.from_product(mth_day_ord,names=['Month','Day'])
 
@@ -774,8 +768,6 @@ def user_report_menu(df, city, month, day):
     k = ['Gender','Day','Age Group']
 
     # Define standard index and column orders
-    mth_order = ['Jan','Feb','Mar','Apr','May','Jun']
-    day_order = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
     gender = ['Female','Male','Unknown']
     age_groups = ['N/A','<18','18-29','30\'s','40\'s','50\'s','60\'s','70+']
 
